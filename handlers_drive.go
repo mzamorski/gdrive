@@ -30,6 +30,7 @@ func listHandler(ctx cli.Context) {
 		SkipHeader:  args.Bool("skipHeader"),
 		SizeInBytes: args.Bool("sizeInBytes"),
 		AbsPath:     args.Bool("absPath"),
+		UseCsv:      args.Bool("useCsv"),
 	})
 	checkErr(err)
 }
@@ -43,6 +44,7 @@ func listChangesHandler(ctx cli.Context) {
 		Now:        args.Bool("now"),
 		NameWidth:  args.Int64("nameWidth"),
 		SkipHeader: args.Bool("skipHeader"),
+		UseCsv:     args.Bool("useCsv"),
 	})
 	checkErr(err)
 }
@@ -225,6 +227,7 @@ func listRevisionsHandler(ctx cli.Context) {
 		NameWidth:   args.Int64("nameWidth"),
 		SizeInBytes: args.Bool("sizeInBytes"),
 		SkipHeader:  args.Bool("skipHeader"),
+		UseCsv:      args.Bool("useCsv"),
 	})
 	checkErr(err)
 }
@@ -288,6 +291,7 @@ func listSyncHandler(ctx cli.Context) {
 	err := newDrive(args).ListSync(drive.ListSyncArgs{
 		Out:        os.Stdout,
 		SkipHeader: args.Bool("skipHeader"),
+		UseCsv:     args.Bool("useCsv"),
 	})
 	checkErr(err)
 }
@@ -298,6 +302,7 @@ func listRecursiveSyncHandler(ctx cli.Context) {
 		Out:         os.Stdout,
 		RootId:      args.String("fileId"),
 		SkipHeader:  args.Bool("skipHeader"),
+		UseCsv:      args.Bool("useCsv"),
 		PathWidth:   args.Int64("pathWidth"),
 		SizeInBytes: args.Bool("sizeInBytes"),
 		SortOrder:   args.String("sortOrder"),

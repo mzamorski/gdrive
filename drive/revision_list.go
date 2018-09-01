@@ -13,6 +13,7 @@ type ListRevisionsArgs struct {
 	NameWidth   int64
 	SkipHeader  bool
 	SizeInBytes bool
+	UseCsv		bool
 }
 
 func (self *Drive) ListRevisions(args ListRevisionsArgs) (err error) {

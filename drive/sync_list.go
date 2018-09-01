@@ -12,6 +12,7 @@ import (
 type ListSyncArgs struct {
 	Out        io.Writer
 	SkipHeader bool
+	UseCsv	   bool
 }
 
 func (self *Drive) ListSync(args ListSyncArgs) error {
@@ -34,6 +35,7 @@ type ListRecursiveSyncArgs struct {
 	PathWidth   int64
 	SizeInBytes bool
 	SortOrder   string
+	UseCsv	    bool
 }
 
 func (self *Drive) ListRecursiveSync(args ListRecursiveSyncArgs) error {

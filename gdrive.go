@@ -3,12 +3,11 @@ package main
 import (
 	"fmt"
 	"os"
-
 	"github.com/prasmussen/gdrive/cli"
 )
 
 const Name = "gdrive"
-const Version = "2.1.0"
+const Version = "2.1.1"
 
 const DefaultMaxFiles = 30
 const DefaultMaxChanges = 100
@@ -90,6 +89,12 @@ func main() {
 						Description: "Dont print the header",
 						OmitValue:   true,
 					},
+					cli.BoolFlag{
+						Name:        "useCsv",
+						Patterns:    []string{"--csv-output"},
+						Description: "Use CSV output.",
+						OmitValue:   true,
+					},					
 					cli.BoolFlag{
 						Name:        "sizeInBytes",
 						Patterns:    []string{"--bytes"},
@@ -483,6 +488,12 @@ func main() {
 						Description: "Dont print the header",
 						OmitValue:   true,
 					},
+					cli.BoolFlag{
+						Name:        "useCsv",
+						Patterns:    []string{"--csv-output"},
+						Description: "Use CSV output.",
+						OmitValue:   true,
+					},
 				),
 			},
 		},
@@ -510,6 +521,12 @@ func main() {
 						Description: "Dont print the header",
 						OmitValue:   true,
 					},
+					cli.BoolFlag{
+						Name:        "useCsv",
+						Patterns:    []string{"--csv-output"},
+						Description: "Use CSV output.",
+						OmitValue:   true,
+					},					
 					cli.BoolFlag{
 						Name:        "sizeInBytes",
 						Patterns:    []string{"--bytes"},
@@ -666,6 +683,12 @@ func main() {
 						Description: "Dont print the header",
 						OmitValue:   true,
 					},
+					cli.BoolFlag{
+						Name:        "useCsv",
+						Patterns:    []string{"--csv-output"},
+						Description: "Use CSV output.",
+						OmitValue:   true,
+					},					
 				),
 			},
 		},
@@ -688,6 +711,12 @@ func main() {
 						Description: "Dont print the header",
 						OmitValue:   true,
 					},
+					cli.BoolFlag{
+						Name:        "useCsv",
+						Patterns:    []string{"--csv-output"},
+						Description: "Use CSV output.",
+						OmitValue:   true,
+					},					
 					cli.BoolFlag{
 						Name:        "sizeInBytes",
 						Patterns:    []string{"--bytes"},

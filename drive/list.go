@@ -7,6 +7,8 @@ import (
 	"google.golang.org/api/googleapi"
 	"io"
 	"text/tabwriter"
+	"os"
+	"encoding/csv"	
 )
 
 type ListFilesArgs struct {
@@ -18,6 +20,7 @@ type ListFilesArgs struct {
 	SkipHeader  bool
 	SizeInBytes bool
 	AbsPath     bool
+	UseCsv		bool
 }
 
 func (self *Drive) List(args ListFilesArgs) (err error) {
@@ -44,13 +47,20 @@ func (self *Drive) List(args ListFilesArgs) (err error) {
 		}
 	}
 
-	PrintFileList(PrintFileListArgs{
-		Out:         args.Out,
-		Files:       files,
-		NameWidth:   int(args.NameWidth),
-		SkipHeader:  args.SkipHeader,
-		SizeInBytes: args.SizeInBytes,
-	})
+	printArgs := PrintFileListArgs{
+			Out:         args.Out,
+			Files:       files,
+			NameWidth:   int(args.NameWidth),
+			SkipHeader:  args.SkipHeader,
+			SizeInBytes: args.SizeInBytes,
+			Delimiter:   '|',
+		}
+	
+	if args.UseCsv {
+		PrintFileList(printArgs)
+	} else {
+		PrintTabbedFileList(printArgs)
+	}
 
 	return
 }
@@ -103,9 +113,37 @@ type PrintFileListArgs struct {
 	NameWidth   int
 	SkipHeader  bool
 	SizeInBytes bool
+	Delimiter	rune
 }
 
 func PrintFileList(args PrintFileListArgs) {
+	w := csv.NewWriter(os.Stdout)
+	w.Comma = args.Delimiter
+
+	if !args.SkipHeader {
+		w.Write([]string{"Id", "Name", "Type", "Size", "Created"})
+	}
+
+	var records [][]string
+	
+	for _, f := range args.Files {
+		
+		record := []string{
+			f.Id,
+			truncateString(f.Name, args.NameWidth),
+			filetype(f),
+			formatSize(f.Size, args.SizeInBytes),
+			formatDatetime(f.CreatedTime),		
+		}
+		
+		records = append(records, record)
+	}
+	
+	w.WriteAll(records)
+	w.Flush()
+}
+
+func PrintTabbedFileList(args PrintFileListArgs) {
 	w := new(tabwriter.Writer)
 	w.Init(args.Out, 0, 0, 3, ' ', 0)
 

@@ -14,6 +14,7 @@ type ListChangesArgs struct {
 	Now        bool
 	NameWidth  int64
 	SkipHeader bool
+	UseCsv	   bool
 }
 
 func (self *Drive) ListChanges(args ListChangesArgs) error {
