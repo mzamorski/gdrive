@@ -9,14 +9,14 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/prasmussen/gdrive/auth"
-	"github.com/prasmussen/gdrive/cli"
-	"github.com/prasmussen/gdrive/drive"
+	"github.com/mzamorski/gdrive/auth"
+	"github.com/mzamorski/gdrive/cli"
+	"github.com/mzamorski/gdrive/drive"
 )
 
-const ClientId = "367116221053-7n0vf5akeru7on6o2fjinrecpdoe99eg.apps.googleusercontent.com"
-const ClientSecret = "1qsNodXNaWq1mQuBjUjmvhoO"
-const TokenFilename = "token_v2.json"
+const ClientId = "<YOUR_CLIENT_ID>"
+const ClientSecret = "<YOUR_CLIENT_SECRET>"
+const TokenFilename = "token.json"
 const DefaultCacheFileName = "file_cache.json"
 
 func listHandler(ctx cli.Context) {
