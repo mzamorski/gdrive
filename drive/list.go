@@ -21,15 +21,17 @@ type ListFilesArgs struct {
 	SizeInBytes bool
 	AbsPath     bool
 	UseCsv		bool
+	UseExtended	bool
 }
 
 func (self *Drive) List(args ListFilesArgs) (err error) {
 	listArgs := listAllFilesArgs{
 		query:     args.Query,
-		fields:    []googleapi.Field{"nextPageToken", "files(id,name,md5Checksum,mimeType,size,createdTime,parents)"},
+		fields:    []googleapi.Field{"nextPageToken", "files(id, name, md5Checksum, mimeType, size, createdTime, parents, headRevisionId)"},
 		sortOrder: args.SortOrder,
 		maxFiles:  args.MaxFiles,
 	}
+	
 	files, err := self.listAllFiles(listArgs)
 	if err != nil {
 		return fmt.Errorf("Failed to list files: %s", err)
@@ -54,6 +56,7 @@ func (self *Drive) List(args ListFilesArgs) (err error) {
 			SkipHeader:  args.SkipHeader,
 			SizeInBytes: args.SizeInBytes,
 			Delimiter:   '|',
+			UseExtended: args.UseExtended,
 		}
 	
 	if args.UseCsv {
@@ -114,6 +117,7 @@ type PrintFileListArgs struct {
 	SkipHeader  bool
 	SizeInBytes bool
 	Delimiter	rune
+	UseExtended bool
 }
 
 func PrintFileList(args PrintFileListArgs) {
@@ -121,7 +125,14 @@ func PrintFileList(args PrintFileListArgs) {
 	w.Comma = args.Delimiter
 
 	if !args.SkipHeader {
-		w.Write([]string{"Id", "Name", "Type", "Size", "Created"})
+	
+		headers := []string{"Id", "Name", "Type", "Size", "Created"}
+	
+		if args.UseExtended {
+			headers = append(headers, []string{"Checksum", "HeadRevisionId"}...)
+		}
+		
+		w.Write(headers)
 	}
 
 	var records [][]string
@@ -133,7 +144,11 @@ func PrintFileList(args PrintFileListArgs) {
 			truncateString(f.Name, args.NameWidth),
 			filetype(f),
 			formatSize(f.Size, args.SizeInBytes),
-			formatDatetime(f.CreatedTime),		
+			formatDatetime(f.CreatedTime),
+		}
+		
+		if args.UseExtended {
+			record = append(record, []string{f.Md5Checksum, f.HeadRevisionId}...)
 		}
 		
 		records = append(records, record)

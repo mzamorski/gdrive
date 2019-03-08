@@ -94,7 +94,13 @@ func main() {
 						Patterns:    []string{"--csv-output"},
 						Description: "Use CSV output.",
 						OmitValue:   true,
-					},					
+					},				
+					cli.BoolFlag{
+						Name:        "useExtended",
+						Patterns:    []string{"--extended"},
+						Description: "Use extended output.",
+						OmitValue:   true,
+					},						
 					cli.BoolFlag{
 						Name:        "sizeInBytes",
 						Patterns:    []string{"--bytes"},

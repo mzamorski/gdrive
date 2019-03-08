@@ -31,6 +31,7 @@ func listHandler(ctx cli.Context) {
 		SizeInBytes: args.Bool("sizeInBytes"),
 		AbsPath:     args.Bool("absPath"),
 		UseCsv:      args.Bool("useCsv"),
+		UseExtended: args.Bool("useExtended"),
 	})
 	checkErr(err)
 }
